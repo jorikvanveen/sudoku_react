@@ -76,18 +76,25 @@ export default class SudokuInput extends React.Component<Props, State> {
         if (!isNaN(keyAsInt) && this.state.focusedIndex !== null) {
             const currentCoord = indexToCoord(this.state.focusedIndex)
 
-            // if (keyAsInt === 0) {
-                const newValues = [...this.state.values]
-                newValues[currentCoord.y][currentCoord.x] = keyAsInt
+            const newValues = [...this.state.values]
+            newValues[currentCoord.y][currentCoord.x] = keyAsInt
 
-                console.log(newValues)
+            console.log(newValues)
 
-                this.setState({
-                    values: newValues
-                })
+            this.setState({
+                values: newValues
+            })
+        }
 
-                this.forceUpdate()
-            // }
+        if (key === "Backspace" && this.state.focusedIndex !== null) {
+            const currentCoord = indexToCoord(this.state.focusedIndex)
+
+            const newValues = [...this.state.values]
+            newValues[currentCoord.y][currentCoord.x] = 0
+
+            this.setState({
+                values: newValues
+            })
         }
     }
 
