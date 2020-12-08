@@ -28,11 +28,70 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.border-right-bold {
+  border-right: solid 2px black;
+}
+
+.border-left-bold {
+  border-left: solid 2px black;
+}
+
+.border-bottom-bold {
+  border-bottom: solid 2px black;
+}
+
+.border-top-bold {
+  border-top: solid 2px black;
+}
+
+.border-right-thin {
+  border-right: solid 1px grey;
+}
+
+.border-left-thin {
+  border-left: solid 1px grey;
+}
+
+.border-bottom-thin {
+  border-bottom: solid 1px grey;
+}
+
+.background-color-blue {
+  background-color: rgb(84, 84, 255);
+}
+
+.background-color-green {
+  background-color: rgb(114, 255, 109);
+}
+
+.background-color-white {
+  background-color: rgb(255, 255, 255);
+}
+
+.background-color-grey {
+  background-color: rgb(194, 194, 194);
+}
+
+.sudoku-container {
+  width: 450px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border-collapse: collapse;
+}
+
+.sudoku-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.sudoku-cell {
+  /* border: solid 0.5px black; */
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 22px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
