@@ -10,14 +10,14 @@ export default class Cell {
     parent: Sudoku;
 
     constructor(x: number, y: number, value: number, parent: Sudoku) {
-        const isClue = value === 0
+        const isClue = (value !== 0)
 
-        this.x = x,
-        this.y = y,
-        this.index = y*9+x,
-        this.value = value,
-        this.isClue = isClue,
-        this.isCertain = this.isClue,
+        this.x = x
+        this.y = y
+        this.index = y*9+x
+        this.value = value
+        this.isClue = isClue
+        this.isCertain = this.isClue
         this.parent = parent
     }
 
@@ -70,5 +70,7 @@ export default class Cell {
                 candidates.push(i)
             }
         }
+
+        return candidates
     }
 }

@@ -1,9 +1,12 @@
+// Class which allows loading a sudokuString and solving it
+
 import Cell from './Cell'
 
 export default class SudokuSolver {
     rows: Cell[][]
 
     constructor(sudokuString: string) {
+        // TODO: Allow passing an existing SudokuSolver instance to clone it, useful for recursive solving algorithms
         const rows:Cell[][] = []
 
         for (let y = 0; y < 9; y++) {
@@ -39,8 +42,8 @@ export default class SudokuSolver {
     getSubgrid(x: number, y: number) {
         const subgrid:Cell[] = []
 
-        for (let yOffset = 0; yOffset < 3; y++) {
-            for (let xOffset = 0; xOffset < 3; x++) {
+        for (let yOffset = 0; yOffset < 3; yOffset++) {
+            for (let xOffset = 0; xOffset < 3; xOffset++) {
                 subgrid.push(this.rows[y * 3 + yOffset][x * 3 + xOffset])
             }
         }
@@ -48,10 +51,32 @@ export default class SudokuSolver {
         return subgrid
     }
 
-    solveLoneSingles () {
+    toString() {
+        let final = ""
+
         for (const row of this.rows) {
             for (const cell of row) {
+                final += cell.value.toString()
+            }
+        }
 
+        return final
+    }
+
+    solveLoneSingles () {
+        // Lone singles:
+        // Cells where only one candidate is left, fairly simple.
+
+        for (const row of this.rows) {
+            for (const cell of row) {
+                if (cell.isCertain) continue
+                const candidates = cell.getCandidates(true)
+
+                if (candidates.length === 1) {
+                    console.log("Found lone single")
+                    cell.value = candidates[0]
+                    cell.isCertain = true
+                }
             }
         }
     }

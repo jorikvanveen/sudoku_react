@@ -4,6 +4,8 @@
 import React from 'react'
 import Cell from './Cell'
 
+import Solver from '../classes/Solver'
+
 import coordToIndex from '../utils/coordToIndex'
 import indexToCoord from '../utils/indexToCoord'
 
@@ -39,6 +41,7 @@ export default class SudokuInput extends React.Component<Props, State> {
         this.handleKeyboardInput = this.handleKeyboardInput.bind(this)
         this.focusCell = this.focusCell.bind(this)
         this.isIndexFocused = this.isIndexFocused.bind(this)
+        this.solveLoneSingles = this.solveLoneSingles.bind(this)
     }
 
     handleKeyboardInput(event:KeyboardEvent) {
@@ -121,9 +124,8 @@ export default class SudokuInput extends React.Component<Props, State> {
     componentDidMount () {
         this.focusCell(0)
         document.addEventListener("keydown", this.handleKeyboardInput, false)
-        setTimeout(() => {
-            this.loadString("530000040008290370090005000040650002803100500760809000006347050200000807001000690")
-        }, 1000)
+        // this.loadString("123456780000000000000000000000000000000000000000000000000000000000000000000000000")
+        this.loadString("530000040008290370090005000040650002803100500760809000006347050200000807001000690")
     }
 
     componentWillUnmount () {
@@ -165,6 +167,14 @@ export default class SudokuInput extends React.Component<Props, State> {
         })
     }
 
+    solveLoneSingles() {
+        const currentString = this.toString()
+        const solver = new Solver(currentString)
+        solver.solveLoneSingles()
+        console.log(solver.toString())
+        this.loadString(solver.toString())
+    }
+
     render() {
         let rows:JSX.Element[] = []
 
@@ -198,6 +208,7 @@ export default class SudokuInput extends React.Component<Props, State> {
             { rows }
             </div>
             <code>{this.toString()}</code>
+            <button onClick={this.solveLoneSingles}>Lone singles</button>
         </React.Fragment>
     }
 }
