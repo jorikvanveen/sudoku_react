@@ -1,6 +1,10 @@
 // THIS CLASS IS STRICTLY FOR VISUALIZATION IN THE BROWSER
 // IT SHOULD NOT CONTAIN ANY SOLVING LOGIC
 
+// This is because some solving functions might make copies of Solver instances
+// I don't want all of these to be JSX.Elements because that goes against best
+// practices for both performance and clear, understandable code
+
 import React from 'react'
 import Cell from './Cell'
 
