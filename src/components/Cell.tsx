@@ -10,6 +10,7 @@ interface Props {
     value: string | number;
     focusHandler: (index:number) => void;
     isFocused: boolean;
+    isCertain: boolean;
 }
 interface State {
     currentBackgroundColor: string;
@@ -57,9 +58,17 @@ export default class Cell extends React.Component<Props, State> {
             return previousValue + " " + currentValue
         }, "sudoku-cell")
 
-        const backgroundColor = this.props.isFocused ? "grey" : this.state.currentBackgroundColor
-        className += ` background-color-${backgroundColor}`
+        let backgroundColor = this.state.currentBackgroundColor
 
+        if (this.props.isCertain) {
+            backgroundColor = "green"
+        }
+
+        if (this.props.isFocused) {
+            backgroundColor = "grey"
+        }
+
+        className += ` background-color-${backgroundColor}`
 
         return className
     }

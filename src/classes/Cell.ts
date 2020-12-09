@@ -20,4 +20,24 @@ export default class Cell {
         this.isCertain = this.isClue,
         this.parent = parent
     }
+
+    public getRow(useOnlyCertainValues: boolean) {
+        return this.parent.getRow(this.y, useOnlyCertainValues)
+    }
+
+    public getColumn(useOnlyCertainValues: boolean) {
+        return this.parent.getColumn(this.x, useOnlyCertainValues)
+    }
+
+    public getSubgrid(useOnlyCertainValues: boolean) {
+        return this.parent.getSubgrid(Math.floor(this.x / 3), Math.floor(this.y / 3), useOnlyCertainValues)
+    }
+
+    public getCandidates(useOnlyCertainValues: boolean) {
+        const candidates:number[] = []
+
+        for (let i = 1; i <= 9; i++) {
+
+        }
+    }
 }

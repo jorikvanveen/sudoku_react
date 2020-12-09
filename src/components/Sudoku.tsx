@@ -10,6 +10,7 @@ import indexToCoord from '../utils/indexToCoord'
 interface Props {}
 interface State {
     values: number[][];
+    clueIndexes: number[];
     focusedIndex: number | null;
 }
 
@@ -31,7 +32,8 @@ export default class SudokuInput extends React.Component<Props, State> {
 
         this.state = {
             values: values,
-            focusedIndex: null
+            focusedIndex: null,
+            clueIndexes: []
         }
 
         this.handleKeyboardInput = this.handleKeyboardInput.bind(this)
@@ -73,24 +75,32 @@ export default class SudokuInput extends React.Component<Props, State> {
         }
 
 
-        if (!isNaN(keyAsInt) && this.state.focusedIndex !== null) {
+        if (!isNaN(keyAsInt) && keyAsInt > 0 && this.state.focusedIndex !== null) {
             const currentCoord = indexToCoord(this.state.focusedIndex)
 
             const newValues = [...this.state.values]
             newValues[currentCoord.y][currentCoord.x] = keyAsInt
 
+            const newClueIndexes =[...this.state.clueIndexes]
+            newClueIndexes.push(this.state.focusedIndex)
+
             console.log(newValues)
 
             this.setState({
-                values: newValues
+                values: newValues,
+                clueIndexes: newClueIndexes
             })
         }
 
-        if (key === "Backspace" && this.state.focusedIndex !== null) {
+        if ((key === "Backspace" || key === "0") && this.state.focusedIndex !== null) {
             const currentCoord = indexToCoord(this.state.focusedIndex)
 
             const newValues = [...this.state.values]
             newValues[currentCoord.y][currentCoord.x] = 0
+
+            const newClueIndexes = [...this.state.clueIndexes]
+            const clueIndex = newClueIndexes.findIndex(index => index === this.state.focusedIndex)
+            newClueIndexes.splice(clueIndex, 1)
 
             this.setState({
                 values: newValues
@@ -112,7 +122,7 @@ export default class SudokuInput extends React.Component<Props, State> {
         this.focusCell(0)
         document.addEventListener("keydown", this.handleKeyboardInput, false)
         setTimeout(() => {
-            this.loadString("000000000010000000002000000003000000000000000000000000000000000000000000000000000")
+            this.loadString("530000040008290370090005000040650002803100500760809000006347050200000807001000690")
         }, 1000)
     }
 
@@ -135,16 +145,23 @@ export default class SudokuInput extends React.Component<Props, State> {
     loadString(sudokuString: string) {
         const newValues:number[][] = []
 
+        const newClues:number[] = []
+
         for (let y = 0; y < 9; y++) {
             newValues[y] = []
             for (let x = 0; x < 9; x++) {
                 const currentValue = parseInt(sudokuString[y*9+x])
                 newValues[y][x] = currentValue
+
+                if (currentValue !== 0) {
+                    newClues.push(y*9+x)
+                }
             }
         }
 
         this.setState({
-            values: newValues
+            values: newValues,
+            clueIndexes: newClues
         })
     }
 
@@ -164,6 +181,7 @@ export default class SudokuInput extends React.Component<Props, State> {
                     value={cellValue}
                     focusHandler={this.focusCell.bind(this)}
                     isFocused={this.state.focusedIndex === index}
+                    isCertain={this.state.clueIndexes.includes(index)}
                     key={index}
                 />)
             }
