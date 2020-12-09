@@ -21,16 +21,16 @@ export default class Cell {
         this.parent = parent
     }
 
-    public getRow(useOnlyCertainValues: boolean) {
-        return this.parent.getRow(this.y, useOnlyCertainValues)
+    public getRow() {
+        return this.parent.getRow(this.y)
     }
 
-    public getColumn(useOnlyCertainValues: boolean) {
-        return this.parent.getColumn(this.x, useOnlyCertainValues)
+    public getColumn() {
+        return this.parent.getColumn(this.x)
     }
 
-    public getSubgrid(useOnlyCertainValues: boolean) {
-        return this.parent.getSubgrid(Math.floor(this.x / 3), Math.floor(this.y / 3), useOnlyCertainValues)
+    public getSubgrid() {
+        return this.parent.getSubgrid(Math.floor(this.x / 3), Math.floor(this.y / 3))
     }
 
     public getCandidates(useOnlyCertainValues: boolean) {
