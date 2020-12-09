@@ -44,6 +44,8 @@ export default class SudokuSolver {
                 subgrid.push(this.rows[y * 3 + yOffset][x * 3 + xOffset])
             }
         }
+
+        return subgrid
     }
 
     solveLoneSingles () {

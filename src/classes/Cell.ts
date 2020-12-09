@@ -33,11 +33,42 @@ export default class Cell {
         return this.parent.getSubgrid(Math.floor(this.x / 3), Math.floor(this.y / 3))
     }
 
+    public testValue(value: number, useOnlyCertainValues: boolean) {
+        // TODO: FUNCTIONS
+        const row = this.getRow()
+
+        for (const cell of row) {
+            if (cell.value === value && (useOnlyCertainValues ? cell.isCertain : true)) {
+                return false
+            }
+        }
+
+        const col = this.getColumn()
+
+        for (const cell of col) {
+            if (cell.value === value && (useOnlyCertainValues ? cell.isCertain : true)) {
+                return false
+            }
+        }
+
+        const subgrid = this.getSubgrid()
+
+        for (const cell of subgrid) {
+            if (cell.value === value && (useOnlyCertainValues ? cell.isCertain : true)) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     public getCandidates(useOnlyCertainValues: boolean) {
         const candidates:number[] = []
 
         for (let i = 1; i <= 9; i++) {
-
+            if (this.testValue(i, useOnlyCertainValues)) {
+                candidates.push(i)
+            }
         }
     }
 }
