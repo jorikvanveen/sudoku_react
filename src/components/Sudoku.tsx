@@ -111,10 +111,41 @@ export default class SudokuInput extends React.Component<Props, State> {
     componentDidMount () {
         this.focusCell(0)
         document.addEventListener("keydown", this.handleKeyboardInput, false)
+        setTimeout(() => {
+            this.loadString("000000000010000000002000000003000000000000000000000000000000000000000000000000000")
+        }, 1000)
     }
 
     componentWillUnmount () {
         document.removeEventListener("keydown", this.handleKeyboardInput, false)
+    }
+
+    toString() {
+        let final = ""
+
+        for (const row of this.state.values) {
+            for (const value of row) {
+                final += value.toString()
+            }
+        }
+
+        return final
+    }
+
+    loadString(sudokuString: string) {
+        const newValues:number[][] = []
+
+        for (let y = 0; y < 9; y++) {
+            newValues[y] = []
+            for (let x = 0; x < 9; x++) {
+                const currentValue = parseInt(sudokuString[y*9+x])
+                newValues[y][x] = currentValue
+            }
+        }
+
+        this.setState({
+            values: newValues
+        })
     }
 
     render() {
@@ -144,8 +175,11 @@ export default class SudokuInput extends React.Component<Props, State> {
             rows.push(row)
         }
 
-        return <div className="sudoku-container">
+        return <React.Fragment>
+            <div className="sudoku-container">
             { rows }
-        </div>
+            </div>
+            <code>{this.toString()}</code>
+        </React.Fragment>
     }
 }
